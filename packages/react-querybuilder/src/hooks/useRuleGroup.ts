@@ -33,6 +33,7 @@ export const useRuleGroup = (props: RuleGroupProps) => {
       validationMap,
       enableDragAndDrop,
       getRuleGroupClassname,
+      maxGroupLevel
     },
     actions: { onGroupAdd, onGroupRemove, onPropChange, onRuleAdd, moveRule },
     disabled: disabledProp,
@@ -194,30 +195,30 @@ export const useRuleGroup = (props: RuleGroupProps) => {
     (_event?: any, _context?: any) => {
       if (!disabled) {
         const newPath = [...getParentPath(path), path[path.length - 1] + 1];
-        moveRule(path, newPath, true);
+        moveRule(path, newPath, true, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path]
+    [disabled, moveRule, path, maxGroupLevel]
   );
 
   const shiftGroupUp = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event?: MouseEvent, _context?: any) => {
       if (!disabled && !shiftUpDisabled) {
-        moveRule(path, 'up', event?.altKey);
+        moveRule(path, 'up', event?.altKey, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path, shiftUpDisabled]
+    [disabled, moveRule, path, shiftUpDisabled, maxGroupLevel]
   );
 
   const shiftGroupDown = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event?: MouseEvent, _context?: any) => {
       if (!disabled && !shiftDownDisabled) {
-        moveRule(path, 'down', event?.altKey);
+        moveRule(path, 'down', event?.altKey, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path, shiftDownDisabled]
+    [disabled, moveRule, path, shiftDownDisabled, maxGroupLevel]
   );
 
   const toggleLockGroup = useCallback(

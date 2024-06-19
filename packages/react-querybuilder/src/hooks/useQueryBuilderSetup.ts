@@ -41,9 +41,9 @@ const getFirstOptionsFrom = (opts: any[], r: RuleType, listsAsArrays?: boolean) 
     return listsAsArrays
       ? valueAsArray
       : joinWith(
-          valueAsArray.map(v => v ?? /* istanbul ignore next */ ''),
-          ','
-        );
+        valueAsArray.map(v => v ?? /* istanbul ignore next */ ''),
+        ','
+      );
   }
 
   return firstOption;
@@ -90,6 +90,7 @@ export const useQueryBuilderSetup = <
     autoSelectOperator = true,
     addRuleToNewGroups = false,
     enableDragAndDrop: enableDragAndDropProp,
+    maxGroupLevel = Infinity,
     listsAsArrays = false,
     debugMode: debugModeProp = false,
     idGenerator = generateID,
@@ -104,6 +105,7 @@ export const useQueryBuilderSetup = <
     controlElements: controlElementsProp,
     debugMode: debugModeProp,
     enableDragAndDrop: enableDragAndDropProp,
+    maxGroupLevel,
     enableMountQueryChange: enableMountQueryChangeProp,
     translations: translationsProp,
     initialQuery: initialQueryProp,
@@ -133,8 +135,8 @@ export const useQueryBuilderSetup = <
       Array.isArray(fieldsProp)
         ? toFullOptionList(fieldsProp, baseField)
         : objectKeys(toFullOptionMap(fieldsProp, baseField))
-            .map(fld => ({ ...fieldsProp[fld as unknown as FieldName], name: fld, value: fld }))
-            .sort((a, b) => a.label.localeCompare(b.label))
+          .map(fld => ({ ...fieldsProp[fld as unknown as FieldName], name: fld, value: fld }))
+          .sort((a, b) => a.label.localeCompare(b.label))
     ) as FullOptionList<F>;
     if (isFlexibleOptionGroupArray(flds)) {
       if (autoSelectField) {
@@ -272,7 +274,7 @@ export const useQueryBuilderSetup = <
         }
       }
 
-      const ops = getOperatorsMain(field, { fieldData }) ?? /* istanbul ignore next */ [];
+      const ops = getOperatorsMain(field, { fieldData }) ?? /* istanbul ignore next */[];
       return (getFirstOption(ops) ?? /* istanbul ignore next */ '') as OperatorName;
     },
     [fieldMap, getDefaultOperator, getOperatorsMain]

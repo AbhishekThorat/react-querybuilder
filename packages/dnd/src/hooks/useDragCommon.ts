@@ -70,7 +70,7 @@ export const useDragCommon = ({
             }
           }
         } else {
-          actions.moveRule(item.path, destinationPath, dropResult.dropEffect === 'copy');
+          actions.moveRule(item.path, destinationPath, dropResult.dropEffect === 'copy', schema.maxGroupLevel);
         }
       },
     }),

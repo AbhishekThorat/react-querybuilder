@@ -23,7 +23,7 @@ export const App = () => {
   return (
     <div>
       <QueryBuilderDnD>
-        <QueryBuilder fields={fields} query={query} onQueryChange={setQuery} />
+        <QueryBuilder fields={fields} query={query} onQueryChange={setQuery} maxGroupLevel={4} />
       </QueryBuilderDnD>
       <h4>Query</h4>
       <pre>

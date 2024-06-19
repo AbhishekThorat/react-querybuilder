@@ -50,6 +50,7 @@ export const useRule = (props: RuleProps) => {
     validationMap,
     enableDragAndDrop,
     getRuleClassname,
+    maxGroupLevel
   } = schema;
 
   useDeprecatedProps('rule', !ruleProp);
@@ -63,12 +64,12 @@ export const useRule = (props: RuleProps) => {
       ruleProp
         ? ruleProp
         : {
-            id,
-            field: fieldProp ?? /* istanbul ignore next */ '',
-            operator: operatorProp ?? /* istanbul ignore next */ '',
-            value: valueProp,
-            valueSource: valueSourceProp,
-          },
+          id,
+          field: fieldProp ?? /* istanbul ignore next */ '',
+          operator: operatorProp ?? /* istanbul ignore next */ '',
+          value: valueProp,
+          valueSource: valueSourceProp,
+        },
     [fieldProp, id, operatorProp, ruleProp, valueProp, valueSourceProp]
   );
 
@@ -134,10 +135,10 @@ export const useRule = (props: RuleProps) => {
     (_event?: any, _context?: any) => {
       if (!disabled) {
         const newPath = [...getParentPath(path), path[path.length - 1] + 1];
-        moveRule(path, newPath, true);
+        moveRule(path, newPath, true, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path]
+    [disabled, moveRule, path, maxGroupLevel]
   );
 
   const toggleLockRule = useCallback(
@@ -162,20 +163,20 @@ export const useRule = (props: RuleProps) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event?: MouseEvent, _context?: any) => {
       if (!disabled && !shiftUpDisabled) {
-        moveRule(path, 'up', event?.altKey);
+        moveRule(path, 'up', event?.altKey, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path, shiftUpDisabled]
+    [disabled, moveRule, path, shiftUpDisabled, maxGroupLevel]
   );
 
   const shiftRuleDown = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event?: MouseEvent, _context?: any) => {
       if (!disabled && !shiftDownDisabled) {
-        moveRule(path, 'down', event?.altKey);
+        moveRule(path, 'down', event?.altKey, maxGroupLevel);
       }
     },
-    [disabled, moveRule, path, shiftDownDisabled]
+    [disabled, moveRule, path, shiftDownDisabled, maxGroupLevel]
   );
 
   const fieldData: FullField = useMemo(

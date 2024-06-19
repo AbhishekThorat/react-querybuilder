@@ -67,7 +67,7 @@ export const add = <RG extends RuleGroupTypeAny>(
         // to the rules array, but that happens immediately and unconditionally so
         // there's no significant risk.
         combinatorPreceding ??
-          (typeof prevCombinator === 'string' ? prevCombinator : getFirstOption(combinators))
+        (typeof prevCombinator === 'string' ? prevCombinator : getFirstOption(combinators))
       );
     }
     // `as RuleType` in only here to avoid the ambiguity with `RuleGroupTypeAny`
@@ -301,6 +301,12 @@ export interface MoveOptions {
    * ID generator.
    */
   idGenerator?: () => string;
+  /**
+   * Prop to set max grouping level
+   *
+   * @default Infinity
+   */
+  maxGroupLevel?: number;
 }
 /**
  * Moves a rule or group from one path to another. In the options parameter, pass
@@ -315,12 +321,13 @@ export const move = <RG extends RuleGroupTypeAny>(
   /** Path to move the rule or group to, or a shift direction. */
   newPath: Path | 'up' | 'down',
   /** Options. */
-  { clone = false, combinators = defaultCombinators, idGenerator = generateID }: MoveOptions = {}
+  { clone = false, combinators = defaultCombinators, idGenerator = generateID, maxGroupLevel = Infinity }: MoveOptions = {}
 ) => {
   const nextPath = getNextPath(query, oldPath, newPath);
 
   // Don't move to the same location or a path that doesn't exist yet
   if (
+    (maxGroupLevel !== Infinity && nextPath.length > maxGroupLevel) ||
     oldPath.length === 0 ||
     pathsAreEqual(oldPath, nextPath) ||
     !findPath(getParentPath(nextPath), query)

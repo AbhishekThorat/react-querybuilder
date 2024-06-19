@@ -100,6 +100,7 @@ export function useQueryBuilderSchema<
     onLog = defaultOnLog,
     idGenerator,
     accessibleDescriptionGenerator = generateAccessibleDescription,
+    maxGroupLevel = Infinity
   } = props;
 
   const {
@@ -125,7 +126,7 @@ export function useQueryBuilderSchema<
     debugMode,
     enableDragAndDrop,
     enableMountQueryChange,
-    translations,
+    translations
   } = incomingRqbContext;
 
   // #region Boolean coercion
@@ -400,7 +401,7 @@ export function useQueryBuilderSchema<
   );
 
   const moveRule = useCallback(
-    (oldPath: Path, newPath: Path, clone?: boolean) => {
+    (oldPath: Path, newPath: Path, clone?: boolean, maxGroupLevel?: number) => {
       const queryLocal = getQuerySelectorById(qbId)(queryBuilderStore.getState());
       // istanbul ignore if
       if (!queryLocal) return;
@@ -411,7 +412,7 @@ export function useQueryBuilderSchema<
         }
         return;
       }
-      const newQuery = move(queryLocal, oldPath, newPath, { clone, combinators });
+      const newQuery = move(queryLocal, oldPath, newPath, { clone, combinators, maxGroupLevel });
       if (debugMode) {
         onLog({ qbId, type: LogType.move, query: queryLocal, newQuery, oldPath, newPath, clone });
       }
@@ -455,6 +456,7 @@ export function useQueryBuilderSchema<
       createRuleGroup,
       disabledPaths,
       enableDragAndDrop,
+      maxGroupLevel,
       fieldMap: fieldMap as FullOptionMap<F>,
       fields,
       dispatchQuery,
@@ -490,6 +492,7 @@ export function useQueryBuilderSchema<
       createRuleGroup,
       disabledPaths,
       enableDragAndDrop,
+      maxGroupLevel,
       fieldMap,
       fields,
       dispatchQuery,

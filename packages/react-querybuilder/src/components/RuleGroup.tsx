@@ -189,7 +189,7 @@ export const RuleGroupHeaderComponents = React.memo(
           rules={rg.ruleGroup.rules}
           level={rg.path.length}
           path={rg.path}
-          disabled={rg.disabled}
+          disabled={rg.disabled || rg.path.length >= rg.schema.maxGroupLevel}
           context={rg.context}
           validation={rg.validationResult}
           ruleOrGroup={rg.ruleGroup}

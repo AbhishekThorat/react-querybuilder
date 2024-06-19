@@ -264,6 +264,6 @@ interface QueryActions {
   ): void;
   onRuleAdd(rule: RuleType, parentPath: number[]): void;
   onRuleRemove(path: number[]): void;
-  moveRule(oldPath: number[], newPath: number[], clone?: boolean): void;
+  moveRule(oldPath: number[], newPath: number[], clone?: boolean, maxGroupLevel?: number): void;
 }
 ```

@@ -109,7 +109,7 @@ export interface CombinatorSelectorProps extends BaseSelectorProps<FullOption> {
  */
 export interface FieldSelectorProps<F extends FullField = FullField>
   extends BaseSelectorProps<F>,
-    CommonRuleSubComponentProps {
+  CommonRuleSubComponentProps {
   operator?: F extends FullField<string, infer OperatorName> ? OperatorName : string;
 }
 
@@ -118,7 +118,7 @@ export interface FieldSelectorProps<F extends FullField = FullField>
  */
 export interface OperatorSelectorProps
   extends BaseSelectorProps<FullOption>,
-    CommonRuleSubComponentProps {
+  CommonRuleSubComponentProps {
   options: FullOptionList<FullOperator>;
   field: string;
   fieldData: FullField;
@@ -129,7 +129,7 @@ export interface OperatorSelectorProps
  */
 export interface ValueSourceSelectorProps
   extends BaseSelectorProps<FullOption>,
-    CommonRuleSubComponentProps {
+  CommonRuleSubComponentProps {
   options: FullOptionList<FullOption<ValueSource>>;
   field: string;
   fieldData: FullField;
@@ -258,7 +258,7 @@ export interface QueryActions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onRuleAdd(rule: RuleType, parentPath: Path, context?: any): void;
   onRuleRemove(path: Path): void;
-  moveRule(oldPath: Path, newPath: Path | 'up' | 'down', clone?: boolean): void;
+  moveRule(oldPath: Path, newPath: Path | 'up' | 'down', clone?: boolean, maxGroupLevel?: number): void;
 }
 
 /**
